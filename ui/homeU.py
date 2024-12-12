@@ -206,6 +206,7 @@ class HomeU(QtWidgets.QWidget):
 
     def field_text(self):
         prices = self.crud.read_price()
+        print(prices)
 
         self.item1_price = prices[0]['price']
         self.item2_price = prices[1]['price']
@@ -358,7 +359,7 @@ class HomeU(QtWidgets.QWidget):
                 padding-top: 5px;
             }
         """)
-        # self.item1_button.clicked.connect(self.update_item)
+        self.item1_button3.clicked.connect(self.update_item)
 
         self.item2_button = QtWidgets.QPushButton("Add", self)
         self.item2_button.setFont(QtGui.QFont("Poppins", 12))
@@ -427,7 +428,7 @@ class HomeU(QtWidgets.QWidget):
                 padding-top: 5px;
             }
         """)
-        # self.item1_button.clicked.connect(self.update_item)
+        self.item2_button3.clicked.connect(self.update_item2)
 
         self.item3_button = QtWidgets.QPushButton("Add", self)
         self.item3_button.setFont(QtGui.QFont("Poppins", 12))
@@ -496,7 +497,7 @@ class HomeU(QtWidgets.QWidget):
                 padding-top: 5px;
             }
         """)
-        # self.item1_button.clicked.connect(self.update_item)
+        self.item3_button3.clicked.connect(self.update_item3)
 
     def add_item(self):
         price = self.item1_price
@@ -513,6 +514,15 @@ class HomeU(QtWidgets.QWidget):
             self.count -= 1
             self.item1_field3.setText(f"Price: {price * self.count} Total: {self.count}")
 
+    def update_item(self):
+        if self.count > 0:
+            self.crud.create_customer("User", "0987654321", "Calaca", "bottle", self.item1_price, self.count, False)
+            self.crud.update_price(1, "bottles", self.item1_stock - self.count, self.item1_price)
+            self.item1_field3.setText("Price: 0 Total: 0")
+            self.item1_field2.setText(f"Stock: {self.item1_stock - self.count}")
+            self.item1_stock -= self.count
+            self.count = 0
+
     def add_item2(self):
         price = self.item2_price
         stock = self.item2_stock
@@ -528,6 +538,15 @@ class HomeU(QtWidgets.QWidget):
             self.count2 -= 1
             self.item2_field3.setText(f"Price: {price * self.count2} Total: {self.count2}")
 
+    def update_item2(self):
+        if self.count2 > 0:
+            self.crud.create_customer("User", "0987654321", "Calaca", "container", self.item2_price, self.count2, False)
+            self.crud.update_price(1, "bottles", self.item2_stock - self.count2, self.item2_price)
+            self.item2_field3.setText("Price: 0 Total: 0")
+            self.item2_field2.setText(f"Stock: {self.item2_stock - self.count2}")
+            self.item2_stock -= self.count2
+            self.count2 = 0
+
     def add_item3(self):
         price = self.item3_price
         stock = self.item3_stock
@@ -542,3 +561,12 @@ class HomeU(QtWidgets.QWidget):
         if 0 < self.count3:
             self.count3 -= 1
             self.item3_field3.setText(f"Price: {price * self.count3} Total: {self.count3}")
+
+    def update_item3(self):
+        if self.count3 > 0:
+            self.crud.create_customer("User", "0987654321", "Calaca", "gallon", self.item3_price, self.count3, False)
+            self.crud.update_price(1, "bottles", self.item3_stock - self.count3, self.item3_price)
+            self.item3_field3.setText("Price: 0 Total: 0")
+            self.item3_field2.setText(f"Stock: {self.item3_stock - self.count3}")
+            self.item3_stock -= self.count3
+            self.count3 = 0
