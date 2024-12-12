@@ -12,6 +12,10 @@ class HomeU(QtWidgets.QWidget):
         self.crud.create_price_table()
         self.crud.create_customer_table()
 
+        self.count = 0
+        self.count2 = 0
+        self.count3 = 0
+
         self.setWindowTitle("Home")
         self.setFixedSize(1300, 800)
         self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
@@ -203,16 +207,16 @@ class HomeU(QtWidgets.QWidget):
     def field_text(self):
         prices = self.crud.read_price()
 
-        item1_price = prices[0]['price']
-        item2_price = prices[1]['price']
-        item3_price = prices[2]['price']
+        self.item1_price = prices[0]['price']
+        self.item2_price = prices[1]['price']
+        self.item3_price = prices[2]['price']
 
-        item1_stock = prices[0]['quantity']
-        item2_stock = prices[1]['quantity']
-        item3_stock = prices[2]['quantity']
+        self.item1_stock = prices[0]['quantity']
+        self.item2_stock = prices[1]['quantity']
+        self.item3_stock = prices[2]['quantity']
 
         self.item1_field = QtWidgets.QLabel(self)
-        self.item1_field.setText(f"Price: {item1_price}")
+        self.item1_field.setText(f"Price: {self.item1_price}")
         font = QtGui.QFont("Poppins", 10)
         font.setBold(True)  # Set the font to bold
         self.item1_field.setFont(font)
@@ -220,7 +224,7 @@ class HomeU(QtWidgets.QWidget):
         self.item1_field.setStyleSheet("padding-left: 10px; background: transparent; color: black;")
 
         self.item1_field2 = QtWidgets.QLabel(self)
-        self.item1_field2.setText(f"Stock: {item1_stock}")
+        self.item1_field2.setText(f"Stock: {self.item1_stock}")
         font = QtGui.QFont("Poppins", 10)
         font.setBold(True)  # Set the font to bold
         self.item1_field2.setFont(font)
@@ -228,7 +232,7 @@ class HomeU(QtWidgets.QWidget):
         self.item1_field2.setStyleSheet("padding-left: 10px; background: transparent; color: black;")
 
         self.item1_field3 = QtWidgets.QLabel(self)
-        self.item1_field3.setText("0")
+        self.item1_field3.setText("Price: 0 Total: 0")
         font = QtGui.QFont("Poppins", 10)
         font.setBold(True)  # Set the font to bold
         self.item1_field3.setFont(font)
@@ -237,7 +241,7 @@ class HomeU(QtWidgets.QWidget):
         self.item1_field3.setAlignment(QtCore.Qt.AlignCenter)
 
         self.item2_field = QtWidgets.QLabel(self)
-        self.item2_field.setText(f"Price: {item2_price}")
+        self.item2_field.setText(f"Price: {self.item2_price}")
         font = QtGui.QFont("Poppins", 10)
         font.setBold(True)  # Set the font to bold
         self.item2_field.setFont(font)
@@ -245,7 +249,7 @@ class HomeU(QtWidgets.QWidget):
         self.item2_field.setStyleSheet("padding-left: 10px; background: transparent; color: black;")
 
         self.item2_field2 = QtWidgets.QLabel(self)
-        self.item2_field2.setText(f"Stock: {item2_stock}")
+        self.item2_field2.setText(f"Stock: {self.item2_stock}")
         font = QtGui.QFont("Poppins", 10)
         font.setBold(True)  # Set the font to bold
         self.item2_field2.setFont(font)
@@ -253,7 +257,7 @@ class HomeU(QtWidgets.QWidget):
         self.item2_field2.setStyleSheet("padding-left: 10px; background: transparent; color: black;")
 
         self.item2_field3 = QtWidgets.QLabel(self)
-        self.item2_field3.setText("0")
+        self.item2_field3.setText("Price: 0 Total: 0")
         font = QtGui.QFont("Poppins", 10)
         font.setBold(True)  # Set the font to bold
         self.item2_field3.setFont(font)
@@ -262,7 +266,7 @@ class HomeU(QtWidgets.QWidget):
         self.item2_field3.setAlignment(QtCore.Qt.AlignCenter)
 
         self.item3_field = QtWidgets.QLabel(self)
-        self.item3_field.setText(f"Price: {item3_price}")
+        self.item3_field.setText(f"Price: {self.item3_price}")
         font = QtGui.QFont("Poppins", 10)
         font.setBold(True)  # Set the font to bold
         self.item3_field.setFont(font)
@@ -270,7 +274,7 @@ class HomeU(QtWidgets.QWidget):
         self.item3_field.setStyleSheet("padding-left: 10px; background: transparent; color: black;")
 
         self.item3_field2 = QtWidgets.QLabel(self)
-        self.item3_field2.setText(f"Stock: {item3_stock}")
+        self.item3_field2.setText(f"Stock: {self.item3_stock}")
         font = QtGui.QFont("Poppins", 10)
         font.setBold(True)  # Set the font to bold
         self.item3_field2.setFont(font)
@@ -278,7 +282,7 @@ class HomeU(QtWidgets.QWidget):
         self.item3_field2.setStyleSheet("padding-left: 10px; background: transparent; color: black;")
 
         self.item3_field3 = QtWidgets.QLabel(self)
-        self.item3_field3.setText("0")
+        self.item3_field3.setText("Price: 0 Total: 0")
         font = QtGui.QFont("Poppins", 10)
         font.setBold(True)  # Set the font to bold
         self.item3_field3.setFont(font)
@@ -308,7 +312,7 @@ class HomeU(QtWidgets.QWidget):
                 padding-top: 5px;
             }
         """)
-        # self.item1_button.clicked.connect(self.update_item)
+        self.item1_button.clicked.connect(self.add_item)
 
         self.item1_button2 = QtWidgets.QPushButton("Remove", self)
         self.item1_button2.setFont(QtGui.QFont("Poppins", 12))
@@ -331,7 +335,7 @@ class HomeU(QtWidgets.QWidget):
                 padding-top: 5px;
             }
         """)
-        # self.item1_button.clicked.connect(self.update_item)
+        self.item1_button2.clicked.connect(self.remove_item)
 
         self.item1_button3 = QtWidgets.QPushButton("Checkout", self)
         self.item1_button3.setFont(QtGui.QFont("Poppins", 12))
@@ -377,7 +381,7 @@ class HomeU(QtWidgets.QWidget):
                 padding-top: 5px;
             }
         """)
-        # self.item2_button.clicked.connect(self.update_item2)
+        self.item2_button.clicked.connect(self.add_item2)
 
         self.item2_button2 = QtWidgets.QPushButton("Remove", self)
         self.item2_button2.setFont(QtGui.QFont("Poppins", 12))
@@ -400,7 +404,7 @@ class HomeU(QtWidgets.QWidget):
                 padding-top: 5px;
             }
         """)
-        # self.item2_button.clicked.connect(self.update_item2)
+        self.item2_button2.clicked.connect(self.remove_item2)
 
         self.item2_button3 = QtWidgets.QPushButton("Checkout", self)
         self.item2_button3.setFont(QtGui.QFont("Poppins", 12))
@@ -446,7 +450,7 @@ class HomeU(QtWidgets.QWidget):
                 padding-top: 5px;
             }
         """)
-        # self.item3_button.clicked.connect(self.update_item3)
+        self.item3_button.clicked.connect(self.add_item3)
 
         self.item3_button2 = QtWidgets.QPushButton("Remove", self)
         self.item3_button2.setFont(QtGui.QFont("Poppins", 12))
@@ -469,7 +473,7 @@ class HomeU(QtWidgets.QWidget):
                 padding-top: 5px;
             }
         """)
-        # self.item3_button.clicked.connect(self.update_item3)
+        self.item3_button2.clicked.connect(self.remove_item3)
 
         self.item3_button3 = QtWidgets.QPushButton("Checkout", self)
         self.item3_button3.setFont(QtGui.QFont("Poppins", 12))
@@ -494,59 +498,47 @@ class HomeU(QtWidgets.QWidget):
         """)
         # self.item1_button.clicked.connect(self.update_item)
 
-    # def show_warning(self):
-    #     message = "Invalid input. Price and stock must be numbers."
-    #     msg = QMessageBox()
-    #     msg.setIcon(QMessageBox.Warning)
-    #     msg.setWindowTitle("Invalid Input")
-    #     msg.setText(message)
-    #     msg.setStandardButtons(QMessageBox.Ok)
-    #     msg.exec_()
+    def add_item(self):
+        price = self.item1_price
+        stock = self.item1_stock
 
-    # def update_item(self):
-    #     price = self.item1_field.text().strip()
-    #     stock = self.item1_field2.text().strip()
+        if stock > self.count:
+            self.count += 1
+            self.item1_field3.setText(f"Price: {price * self.count} Total: {self.count}")
 
-    #     # Check if price and stock are valid numbers
-    #     try:
-    #         price = float(price)  # Convert price to float
-    #         stock = int(stock)    # Convert stock to integer
-    #         self.crud.update_price(1, "bottle", stock, price)
-    #         self.item1_field.setPlaceholderText(f"Price: {price}")
-    #         self.item1_field2.setPlaceholderText(f"Stock: {stock}")
-    #         self.item1_field.setText("")
-    #         self.item1_field2.setText("")
-    #     except ValueError:
-    #         self.show_warning()
+    def remove_item(self):
+        price = self.item1_price
 
-    # def update_item2(self):
-    #     price = self.item1_field.text().strip()
-    #     stock = self.item1_field2.text().strip()
+        if 0 < self.count:
+            self.count -= 1
+            self.item1_field3.setText(f"Price: {price * self.count} Total: {self.count}")
 
-    #     # Check if price and stock are valid numbers
-    #     try:
-    #         price = float(price)  # Convert price to float
-    #         stock = int(stock)    # Convert stock to integer
-    #         self.crud.update_price(2, "container", stock, price)
-    #         self.item2_field.setPlaceholderText(f"Price: {price}")
-    #         self.item2_field2.setPlaceholderText(f"Stock: {stock}")
-    #         self.item2_field.setText("")
-    #         self.item2_field2.setText("")
-    #     except ValueError:
-    #         self.show_warning()
+    def add_item2(self):
+        price = self.item2_price
+        stock = self.item2_stock
 
-    # def update_item3(self):
-    #     price = self.item1_field.text().strip()
-    #     stock = self.item1_field2.text().strip()
+        if stock > self.count2:
+            self.count2 += 1
+            self.item2_field3.setText(f"Price: {price * self.count2} Total: {self.count2}")
 
-    #     # Check if price and stock are valid numbers
-    #     try:
-    #         price = float(price)  # Convert price to float
-    #         stock = int(stock)    # Convert stock to integer
-    #         self.crud.update_price(3, "gallon", stock, price)
-    #         self.item3_field.setPlaceholderText(f"Price: {price}")
-    #         self.item3_field2.setPlaceholderText(f"Stock: {stock}")
-    #         self.item3_field.setText("")
-    #         self.item3_field2.setText("")
-    #     except ValueError:
-    #         self.show_warning()
+    def remove_item2(self):
+        price = self.item2_price
+        
+        if 0 < self.count2:
+            self.count2 -= 1
+            self.item2_field3.setText(f"Price: {price * self.count2} Total: {self.count2}")
+
+    def add_item3(self):
+        price = self.item3_price
+        stock = self.item3_stock
+
+        if stock > self.count3:
+            self.count3 += 1
+            self.item3_field3.setText(f"Price: {price * self.count3} Total: {self.count3}")
+
+    def remove_item3(self):
+        price = self.item3_price
+        
+        if 0 < self.count3:
+            self.count3 -= 1
+            self.item3_field3.setText(f"Price: {price * self.count3} Total: {self.count3}")
