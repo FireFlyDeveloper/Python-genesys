@@ -1,7 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox
 
-from ui.order import Order
+from ui.orderU import OrderU
 from helper.crud import CRUD
 
 class Home(QtWidgets.QWidget):
@@ -117,7 +117,7 @@ class Home(QtWidgets.QWidget):
         self.move(x, y)
 
     def open_order(self):
-        self.order_window = Order(self)  # Instantiate the Home window
+        self.order_window = OrderU(self)  # Instantiate the Home window
         self.order_window.show()  # Show the Home window
         self.close()
 

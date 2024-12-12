@@ -1,6 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-class Order(QtWidgets.QWidget):
+class OrderU(QtWidgets.QWidget):
     def __init__(self, home):
         super().__init__()
 
@@ -121,6 +121,29 @@ class Order(QtWidgets.QWidget):
         """)
         self.table.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)  # Stretch columns to fit
 
+        self.apply_button = QtWidgets.QPushButton("Apply", self)
+        self.apply_button.setFont(QtGui.QFont("Poppins", 12))
+        self.apply_button.setGeometry(1050, 650, 200, 70)
+        self.apply_button.setStyleSheet("""
+            QPushButton {
+                background-color: #0077be;
+                color: white;
+                border: 2px solid #005f8a;
+                border-radius: 15px;
+                font-weight: bold;
+                padding: 5px;
+            }
+            QPushButton:hover {
+                background-color: #0093d0;
+            }
+            QPushButton:pressed {
+                background-color: #005f8a;
+                padding-left: 5px;
+                padding-top: 5px;
+            }
+        """)
+        self.apply_button.clicked.connect(self.apply_changes)
+
         # Populate the table
         customers = self.home.crud.read_customers()
         self.table.setRowCount(len(customers))  # Set the number of rows
@@ -136,16 +159,20 @@ class Order(QtWidgets.QWidget):
             self.table.setItem(row_index, 6, QtWidgets.QTableWidgetItem(str(user["item_number"])))
             self.table.setItem(row_index, 7, QtWidgets.QTableWidgetItem(str(user["item_price"] * user["item_number"])))
 
-            isConfirmed = "❎"
-            if user["confirmed"]:
-                isConfirmed = "✅"
-                
-            self.table.setItem(row_index, 8, QtWidgets.QTableWidgetItem(isConfirmed))
-
-            for col_index in range(9):
+            for col_index in range(8):  # Iterate through columns 0 to 7
                 item = self.table.item(row_index, col_index)
                 if item:
                     item.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled)
+            
+            #  Add a checkbox to the "Confirmed" column
+            checkbox = QtWidgets.QCheckBox()
+            checkbox.setChecked(user["confirmed"])  # Directly use the boolean value
+            checkbox_widget = QtWidgets.QWidget()
+            layout = QtWidgets.QHBoxLayout(checkbox_widget)
+            layout.addWidget(checkbox)
+            layout.setAlignment(QtCore.Qt.AlignCenter)  # Center-align the checkbox
+            layout.setContentsMargins(0, 0, 0, 0)
+            self.table.setCellWidget(row_index, 8, checkbox_widget)
 
     def center_window(self):
         # Get screen geometry
@@ -157,3 +184,20 @@ class Order(QtWidgets.QWidget):
     def open_home(self):
         self.home.show()  # Show the Home window
         self.close()
+
+    def apply_changes(self):
+        for row_index in range(self.table.rowCount()):
+            customer_id = int(self.table.item(row_index, 0).text())
+            name = self.table.item(row_index, 1).text()
+            number = self.table.item(row_index, 2).text()
+            address = self.table.item(row_index, 3).text()
+            item_name = self.table.item(row_index, 4).text()
+            item_price = float(self.table.item(row_index, 5).text())
+            item_number = int(self.table.item(row_index, 6).text())
+            total_price = item_price * item_number
+            checkbox_widget = self.table.cellWidget(row_index, 8)
+            checkbox = checkbox_widget.layout().itemAt(0).widget()
+            confirmed = checkbox.isChecked()
+
+            # Update the customer in the database
+            self.home.crud.update_customer(customer_id, name, number, address, item_name, item_price, item_number, confirmed)

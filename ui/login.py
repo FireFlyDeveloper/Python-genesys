@@ -1,5 +1,8 @@
 from PyQt5 import QtWidgets, QtGui, QtCore
 
+from ui.home import Home
+from ui.homeU import HomeU
+
 class Login(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
@@ -65,13 +68,17 @@ class Login(QtWidgets.QMainWindow):
         if self.is_admin:
             if username == "admin" and password == "password":
                 self.message_label.setText("")
-                self.show_message("Admin logged in successfully.")
+                self.user = Home()
+                self.user.show()
+                self.close()
             else:
                 self.message_label.setText("Wrong username or password!")
         else:
             if username == "user" and password == "password":
                 self.message_label.setText("")
-                self.show_message("User logged in successfully.")
+                self.admin = HomeU()
+                self.admin.show()
+                self.close()
             else:
                 self.message_label.setText("Wrong username or password!")
 

@@ -206,7 +206,6 @@ class HomeU(QtWidgets.QWidget):
 
     def field_text(self):
         prices = self.crud.read_price()
-        print(prices)
 
         self.item1_price = prices[0]['price']
         self.item2_price = prices[1]['price']
